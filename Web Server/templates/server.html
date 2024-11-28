@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Light Sensor Monitor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .value {
+            font-size: 48px;
+            margin: 20px;
+        }
+        .timestamp {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Light Sensor Monitor</h1>
+    <div class="value"><span id="light-value">0</span> lux</div>
+    <div class="timestamp">Last update: <span id="timestamp">--:--:--</span></div>
+
+    <script>
+        function updateValue() {
+            $.getJSON('/get_light', function(data) {
+                $('#light-value').text(data.light.toFixed(1));
+                $('#timestamp').text(data.timestamp);
+            });
+        }
+        
+        // Cập nhật giá trị mỗi giây
+        setInterval(updateValue, 1000);
+        updateValue();  // Cập nhật lần đầu
+    </script>
+</body>
+</html>
